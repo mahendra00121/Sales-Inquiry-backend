@@ -1,0 +1,140 @@
+﻿Using project 'D:\Sales Inquirys\backend\PolyTrack.API\PolyTrack.API.csproj'.
+Using startup project 'D:\Sales Inquirys\backend\PolyTrack.API\PolyTrack.API.csproj'.
+dotnet msbuild /getProperty:ProjectName /getProperty:AssemblyName /getProperty:DesignAssembly /getProperty:Language /getProperty:OutputPath /getProperty:PlatformTarget /getProperty:ProjectAssetsFile /getProperty:ProjectDir /getProperty:RootNamespace /getProperty:RuntimeFrameworkVersion /getProperty:TargetFileName /getProperty:TargetFrameworkMoniker /getProperty:Nullable /getProperty:TargetFramework /getProperty:TargetPlatformIdentifier /getProperty:Platform /t:ResolvePackageAssets /getItem:RuntimeCopyLocalItems "D:\Sales Inquirys\backend\PolyTrack.API\PolyTrack.API.csproj"
+dotnet msbuild /getProperty:ProjectName /getProperty:AssemblyName /getProperty:DesignAssembly /getProperty:Language /getProperty:OutputPath /getProperty:PlatformTarget /getProperty:ProjectAssetsFile /getProperty:ProjectDir /getProperty:RootNamespace /getProperty:RuntimeFrameworkVersion /getProperty:TargetFileName /getProperty:TargetFrameworkMoniker /getProperty:Nullable /getProperty:TargetFramework /getProperty:TargetPlatformIdentifier /getProperty:Platform /t:ResolvePackageAssets /getItem:RuntimeCopyLocalItems "D:\Sales Inquirys\backend\PolyTrack.API\PolyTrack.API.csproj"
+Build started...
+dotnet build "D:\Sales Inquirys\backend\PolyTrack.API\PolyTrack.API.csproj" /verbosity:quiet /nologo /p:PublishAot=false
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:05.49
+
+Build succeeded.
+dotnet exec --depsfile "D:\Sales Inquirys\backend\PolyTrack.API\bin\Debug\net9.0\PolyTrack.API.deps.json" --additionalprobingpath C:\Users\Dell\.nuget\packages --additionalprobingpath "C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages" --runtimeconfig "D:\Sales Inquirys\backend\PolyTrack.API\bin\Debug\net9.0\PolyTrack.API.runtimeconfig.json" C:\Users\Dell\.dotnet\tools\.store\dotnet-ef\10.0.2\dotnet-ef\10.0.2\tools\net8.0\any\tools\net8.0\any\ef.dll database update --assembly "D:\Sales Inquirys\backend\PolyTrack.API\bin\Debug\net9.0\PolyTrack.API.dll" --project "D:\Sales Inquirys\backend\PolyTrack.API\PolyTrack.API.csproj" --startup-assembly "D:\Sales Inquirys\backend\PolyTrack.API\bin\Debug\net9.0\PolyTrack.API.dll" --startup-project "D:\Sales Inquirys\backend\PolyTrack.API\PolyTrack.API.csproj" --project-dir "D:\Sales Inquirys\backend\PolyTrack.API\\" --root-namespace PolyTrack.API --language C# --framework net9.0 --design-assembly C:\Users\Dell\.nuget\packages\microsoft.entityframeworkcore.design\9.0.2\lib\net8.0\Microsoft.EntityFrameworkCore.Design.dll --nullable --working-dir "D:\Sales Inquirys\backend\PolyTrack.API" --verbose
+Using assembly 'PolyTrack.API'.
+Using startup assembly 'PolyTrack.API'.
+Using application base 'D:\Sales Inquirys\backend\PolyTrack.API\bin\Debug\net9.0'.
+Using working directory 'D:\Sales Inquirys\backend\PolyTrack.API'.
+Using root namespace 'PolyTrack.API'.
+Using project directory 'D:\Sales Inquirys\backend\PolyTrack.API\'.
+Remaining arguments: .
+Finding DbContext classes...
+Using environment 'Development'.
+Finding IDesignTimeDbContextFactory implementations...
+Finding DbContext classes in the project...
+Found DbContext 'ApplicationDbContext'.
+Finding application service provider in assembly 'PolyTrack.API'...
+Finding Microsoft.Extensions.Hosting service provider...
+Using application service provider from Microsoft.Extensions.Hosting.
+Using context 'ApplicationDbContext'.
+warn: Microsoft.EntityFrameworkCore.Model.Validation[30000]
+      No store type was specified for the decimal property 'FinalPriceWithTax' on entity type 'CostingQuote'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+warn: Microsoft.EntityFrameworkCore.Model.Validation[30000]
+      No store type was specified for the decimal property 'TaxPercentage' on entity type 'CostingQuote'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+warn: Microsoft.EntityFrameworkCore.Model.Validation[30000]
+      No store type was specified for the decimal property 'TotalDispatchWeight' on entity type 'Dispatch'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+warn: Microsoft.EntityFrameworkCore.Model.Validation[30000]
+      No store type was specified for the decimal property 'TotalWeight' on entity type 'Packing'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+warn: Microsoft.EntityFrameworkCore.Model.Validation[30000]
+      No store type was specified for the decimal property 'Quantity' on entity type 'Procurement'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+warn: Microsoft.EntityFrameworkCore.Model.Validation[30000]
+      No store type was specified for the decimal property 'MaterialConsumedQuantity' on entity type 'ShopFloor'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+warn: Microsoft.EntityFrameworkCore.Model.Validation[30000]
+      No store type was specified for the decimal property 'Weight' on entity type 'WasteRecord'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+Finding design-time services referenced by assembly 'PolyTrack.API'...
+Finding design-time services referenced by assembly 'PolyTrack.API'...
+No referenced design-time services were found.
+Finding design-time services for provider 'Microsoft.EntityFrameworkCore.SqlServer'...
+Using design-time services from provider 'Microsoft.EntityFrameworkCore.SqlServer'.
+Finding IDesignTimeServices implementations in assembly 'PolyTrack.API'...
+No design-time services were found.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (35ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+Executed DbCommand (35ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+info: Microsoft.EntityFrameworkCore.Migrations[20411]
+      Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (71ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      DECLARE @result int;
+      EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+      SELECT @result
+Executed DbCommand (71ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+      BEGIN
+          CREATE TABLE [__EFMigrationsHistory] (
+              [MigrationId] nvarchar(150) NOT NULL,
+              [ProductVersion] nvarchar(32) NOT NULL,
+              CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+          );
+      END;
+Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [MigrationId], [ProductVersion]
+      FROM [__EFMigrationsHistory]
+      ORDER BY [MigrationId];
+Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+info: Microsoft.EntityFrameworkCore.Migrations[20402]
+      Applying migration '20260403052122_AddMasterTablesForce'.
+Applying migration '20260403052122_AddMasterTablesForce'.
+fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+      Failed executing DbCommand (6ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      DROP TABLE [MasterConfigs];
+Failed executing DbCommand (6ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DROP TABLE [MasterConfigs];
+Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot drop the table 'MasterConfigs', because it does not exist or you do not have permission.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean isAsync, Int32 timeout, Boolean asyncWrite)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Migrations.MigrationCommand.ExecuteNonQuery(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.Execute(IReadOnlyList`1 migrationCommands, IRelationalConnection connection, MigrationExecutionState executionState, Boolean beginTransaction, Boolean commitTransaction, Nullable`1 isolationLevel)
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.<>c.<ExecuteNonQuery>b__3_1(DbContext _, ValueTuple`6 s)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQuery(IReadOnlyList`1 migrationCommands, IRelationalConnection connection, MigrationExecutionState executionState, Boolean commitTransaction, Nullable`1 isolationLevel)
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.MigrateImplementation(DbContext context, String targetMigration, MigrationExecutionState state, Boolean useTransaction)
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.<>c.<Migrate>b__20_1(DbContext c, ValueTuple`4 s)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.Migrate(String targetMigration)
+   at Microsoft.EntityFrameworkCore.Design.Internal.MigrationsOperations.UpdateDatabase(String targetMigration, String connectionString, String contextType)
+   at Microsoft.EntityFrameworkCore.Design.OperationExecutor.UpdateDatabaseImpl(String targetMigration, String connectionString, String contextType)
+   at Microsoft.EntityFrameworkCore.Design.OperationExecutor.UpdateDatabase.<>c__DisplayClass0_0.<.ctor>b__0()
+   at Microsoft.EntityFrameworkCore.Design.OperationExecutor.OperationBase.Execute(Action action)
+ClientConnectionId:f0c1891d-4b49-4d4e-8db2-995e1e9fe3fb
+Error Number:3701,State:5,Class:11
+Cannot drop the table 'MasterConfigs', because it does not exist or you do not have permission.

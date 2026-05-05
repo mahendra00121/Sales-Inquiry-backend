@@ -22,4 +22,5 @@ public class ApplicationDbContext : DbContext
     public DbSet<Packing> PackingRecords { get; set; }
     public DbSet<Dispatch> DispatchRecords { get; set; }
     public DbSet<WasteRecord> WasteRecords { get; set; }
+    public DbSet<MasterData> MasterData { get; set; }
 }

@@ -160,3 +160,5 @@ D:\Sales Inquirys\backend\PolyTrack.API\obj\Debug\net9.0\refint\PolyTrack.API.dl
 D:\Sales Inquirys\backend\PolyTrack.API\obj\Debug\net9.0\PolyTrack.API.pdb
 D:\Sales Inquirys\backend\PolyTrack.API\obj\Debug\net9.0\PolyTrack.API.genruntimeconfig.cache
 D:\Sales Inquirys\backend\PolyTrack.API\obj\Debug\net9.0\ref\PolyTrack.API.dll
+D:\Sales Inquirys\backend\PolyTrack.API\obj\Debug\net9.0\PolyTrack.API.sourcelink.json
+D:\Sales Inquirys\backend\PolyTrack.API\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

@@ -162,3 +162,6 @@ D:\Sales Inquirys\backend\PolyTrack.API\obj\Debug\net9.0\PolyTrack.API.genruntim
 D:\Sales Inquirys\backend\PolyTrack.API\obj\Debug\net9.0\ref\PolyTrack.API.dll
 D:\Sales Inquirys\backend\PolyTrack.API\obj\Debug\net9.0\PolyTrack.API.sourcelink.json
 D:\Sales Inquirys\backend\PolyTrack.API\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Sales Inquirys\backend\PolyTrack.API\bin\Debug\net9.0\BouncyCastle.Cryptography.dll
+D:\Sales Inquirys\backend\PolyTrack.API\bin\Debug\net9.0\MailKit.dll
+D:\Sales Inquirys\backend\PolyTrack.API\bin\Debug\net9.0\MimeKit.dll

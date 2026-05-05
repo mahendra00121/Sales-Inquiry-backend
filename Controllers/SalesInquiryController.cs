@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using PolyTrack.API.Data;
 using PolyTrack.API.Models;
+using PolyTrack.API.Services;
 
 namespace PolyTrack.API.Controllers;
 
@@ -12,10 +13,12 @@ namespace PolyTrack.API.Controllers;
 public class SalesInquiryController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
+    private readonly IEmailService _emailService;
 
-    public SalesInquiryController(ApplicationDbContext context)
+    public SalesInquiryController(ApplicationDbContext context, IEmailService emailService)
     {
         _context = context;
+        _emailService = emailService;
     }
 
     // GET: api/SalesInquiry
@@ -49,6 +52,28 @@ public class SalesInquiryController : ControllerBase
 
         _context.SalesInquiries.Add(inquiry);
         await _context.SaveChangesAsync();
+
+        // Send Confirmation Email
+        if (!string.IsNullOrEmpty(inquiry.ContactEmail))
+        {
+            var subject = "Sales Inquiry Received - PolyTrack ERP";
+            var body = $@"
+                <html>
+                <body style='font-family: Arial, sans-serif;'>
+                    <h2 style='color: #2563eb;'>Thank you for your Inquiry!</h2>
+                    <p>Dear {inquiry.CustomerName},</p>
+                    <p>We have successfully received your sales inquiry. Our team will review the details and get back to you shortly.</p>
+                    <div style='background-color: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;'>
+                        <p><strong>Inquiry ID:</strong> #{inquiry.Id}</p>
+                        <p><strong>Date:</strong> {inquiry.InquiryDate:f}</p>
+                        <p><strong>Requirement:</strong> {inquiry.Description}</p>
+                    </div>
+                    <p>Best Regards,<br/><strong>PolyTrack Sales Team</strong></p>
+                </body>
+                </html>";
+
+            await _emailService.SendEmailAsync(inquiry.ContactEmail, subject, body);
+        }
 
         return CreatedAtAction(nameof(GetInquiry), new { id = inquiry.Id }, inquiry);
     }

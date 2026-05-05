@@ -25,7 +25,10 @@ public class SalesInquiryController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<SalesInquiry>>> GetInquiries()
     {
-        return await _context.SalesInquiries.OrderByDescending(i => i.InquiryDate).ToListAsync();
+        return await _context.SalesInquiries
+            .Where(i => i.Status != "OTP_PENDING") // Hide pending OTPs from main list
+            .OrderByDescending(i => i.InquiryDate)
+            .ToListAsync();
     }
 
     // GET: api/SalesInquiry/5
@@ -42,33 +45,40 @@ public class SalesInquiryController : ControllerBase
         return inquiry;
     }
 
-    // POST: api/SalesInquiry
     [HttpPost]
     public async Task<ActionResult<SalesInquiry>> CreateInquiry(SalesInquiry inquiry)
     {
         inquiry.InquiryDate = DateTime.Now;
         inquiry.UpdatedAt = DateTime.Now;
-        inquiry.Status = "New";
+        
+        // Step 1: Generate a 6-digit OTP
+        string otp = new Random().Next(100000, 999999).ToString();
+        
+        // Step 2: Set status to OTP_PENDING and store OTP in Remarks
+        inquiry.Status = "OTP_PENDING";
+        inquiry.Remarks = otp; 
 
         _context.SalesInquiries.Add(inquiry);
         await _context.SaveChangesAsync();
 
-        // Send Confirmation Email
+        // Step 3: Send OTP Email
         if (!string.IsNullOrEmpty(inquiry.ContactEmail))
         {
-            var subject = "Sales Inquiry Received - PolyTrack ERP";
+            var subject = "Verification Code: " + otp + " - PolyTrack ERP";
             var body = $@"
                 <html>
-                <body style='font-family: Arial, sans-serif;'>
-                    <h2 style='color: #2563eb;'>Thank you for your Inquiry!</h2>
-                    <p>Dear {inquiry.CustomerName},</p>
-                    <p>We have successfully received your sales inquiry. Our team will review the details and get back to you shortly.</p>
-                    <div style='background-color: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;'>
-                        <p><strong>Inquiry ID:</strong> #{inquiry.Id}</p>
-                        <p><strong>Date:</strong> {inquiry.InquiryDate:f}</p>
-                        <p><strong>Requirement:</strong> {inquiry.Description}</p>
+                <body style='font-family: Arial, sans-serif; text-align: center;'>
+                    <div style='max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 15px;'>
+                        <h2 style='color: #2563eb;'>Verify Your Inquiry</h2>
+                        <p>Dear {inquiry.CustomerName},</p>
+                        <p>Thank you for reaching out to us. Please use the verification code below to complete your inquiry submission:</p>
+                        <div style='background-color: #f1f5f9; padding: 15px; font-size: 32px; font-weight: bold; letter-spacing: 5px; color: #1e293b; margin: 20px 0; border-radius: 10px;'>
+                            {otp}
+                        </div>
+                        <p style='color: #64748b; font-size: 12px;'>This code will expire shortly. If you did not request this, please ignore this email.</p>
+                        <hr style='border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;' />
+                        <p>Best Regards,<br/><strong>PolyTrack ERP System</strong></p>
                     </div>
-                    <p>Best Regards,<br/><strong>PolyTrack Sales Team</strong></p>
                 </body>
                 </html>";
 
@@ -76,6 +86,37 @@ public class SalesInquiryController : ControllerBase
         }
 
         return CreatedAtAction(nameof(GetInquiry), new { id = inquiry.Id }, inquiry);
+    }
+
+    // POST: api/SalesInquiry/verify-otp
+    [HttpPost("verify-otp")]
+    public async Task<IActionResult> VerifyOtp([FromBody] OtpVerificationRequest request)
+    {
+        var inquiry = await _context.SalesInquiries.FindAsync(request.InquiryId);
+
+        if (inquiry == null || inquiry.Status != "OTP_PENDING")
+        {
+            return BadRequest("Invalid inquiry or already verified.");
+        }
+
+        if (inquiry.Remarks == request.Otp)
+        {
+            // OTP Matches! 
+            inquiry.Status = "New"; // Activate the inquiry
+            inquiry.Remarks = "";   // Clear the OTP from remarks
+            inquiry.UpdatedAt = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+            return Ok(new { message = "Inquiry verified successfully!" });
+        }
+
+        return BadRequest("Invalid verification code. Please try again.");
+    }
+
+    public class OtpVerificationRequest
+    {
+        public int InquiryId { get; set; }
+        public string Otp { get; set; } = string.Empty;
     }
 
     // PUT: api/SalesInquiry/5

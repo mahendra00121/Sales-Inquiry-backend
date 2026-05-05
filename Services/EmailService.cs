@@ -29,8 +29,11 @@ namespace PolyTrack.API.Services
             using var smtp = new SmtpClient();
             try
             {
+                // Remove spaces from password if any (App Passwords have spaces sometimes)
+                var cleanPassword = _emailSettings.Password.Replace(" ", "");
+
                 await smtp.ConnectAsync(_emailSettings.SmtpServer, _emailSettings.Port, SecureSocketOptions.StartTls);
-                await smtp.AuthenticateAsync(_emailSettings.Username, _emailSettings.Password);
+                await smtp.AuthenticateAsync(_emailSettings.Username, cleanPassword);
                 await smtp.SendAsync(email);
             }
             catch (System.Exception ex)

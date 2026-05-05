@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PolyTrack.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9540c8a2d191cebb5fb3fd947a4673640e206431")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+08ce765b2af829d23a4da5bc4def2aa096f25a8f")]
 [assembly: System.Reflection.AssemblyProductAttribute("PolyTrack.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PolyTrack.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

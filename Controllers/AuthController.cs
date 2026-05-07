@@ -66,6 +66,63 @@ public class AuthController : ControllerBase
         });
     }
 
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    [HttpGet("me")]
+    public async Task<IActionResult> GetMe()
+    {
+        var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdStr) || !int.TryParse(userIdStr, out int userId))
+        {
+            return Unauthorized();
+        }
+
+        var user = await _context.Users.FindAsync(userId);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(new
+        {
+            id = user.Id,
+            username = user.Username,
+            fullName = user.FullName,
+            role = user.Role,
+            createdAt = user.CreatedAt
+        });
+    }
+
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    [HttpPut("update-profile")]
+    public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileRequest request)
+    {
+        var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdStr) || !int.TryParse(userIdStr, out int userId))
+        {
+            return Unauthorized();
+        }
+
+        var user = await _context.Users.FindAsync(userId);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        if (!string.IsNullOrEmpty(request.FullName))
+        {
+            user.FullName = request.FullName;
+        }
+
+        if (!string.IsNullOrEmpty(request.Password))
+        {
+            user.Password = request.Password; // In a real app, hash this!
+        }
+
+        await _context.SaveChangesAsync();
+
+        return Ok(new { message = "Profile updated successfully" });
+    }
+
     // Temporary endpoint to create a default admin user
     [HttpPost("seed")]
     public async Task<IActionResult> Seed()
@@ -84,4 +141,10 @@ public class LoginRequest
 {
     public string Username { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
+}
+
+public class UpdateProfileRequest
+{
+    public string? FullName { get; set; }
+    public string? Password { get; set; }
 }

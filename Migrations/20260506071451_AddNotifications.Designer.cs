@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PolyTrack.API.Data;
 
@@ -11,9 +12,11 @@ using PolyTrack.API.Data;
 namespace PolyTrack.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260506071451_AddNotifications")]
+    partial class AddNotifications
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,31 +130,6 @@ namespace PolyTrack.API.Migrations
                     b.HasIndex("PackingId");
 
                     b.ToTable("DispatchRecords");
-                });
-
-            modelBuilder.Entity("PolyTrack.API.Models.EmailTemplate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Body")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EmailTemplates");
                 });
 
             modelBuilder.Entity("PolyTrack.API.Models.FeasibilityReview", b =>
@@ -431,30 +409,6 @@ namespace PolyTrack.API.Migrations
                     b.ToTable("ProductionPlans");
                 });
 
-            modelBuilder.Entity("PolyTrack.API.Models.RolePermission", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsVisible")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ModuleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RolePermissions");
-                });
-
             modelBuilder.Entity("PolyTrack.API.Models.SalesInquiry", b =>
                 {
                     b.Property<int>("Id")
@@ -618,29 +572,6 @@ namespace PolyTrack.API.Migrations
                     b.HasIndex("ProductionPlanId");
 
                     b.ToTable("ShopFloorRecords");
-                });
-
-            modelBuilder.Entity("PolyTrack.API.Models.SystemSetting", b =>
-                {
-                    b.Property<string>("SettingKey")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Group")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SettingValue")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("SettingKey");
-
-                    b.ToTable("SystemSettings");
                 });
 
             modelBuilder.Entity("PolyTrack.API.Models.User", b =>

@@ -64,23 +64,12 @@ public class SalesInquiryController : ControllerBase
         // Step 3: Send OTP Email
         if (!string.IsNullOrEmpty(inquiry.ContactEmail))
         {
-            var subject = "Verification Code: " + otp + " - PolyTrack ERP";
-            var body = $@"
-                <html>
-                <body style='font-family: Arial, sans-serif; text-align: center;'>
-                    <div style='max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 15px;'>
-                        <h2 style='color: #2563eb;'>Verify Your Inquiry</h2>
-                        <p>Dear {inquiry.CustomerName},</p>
-                        <p>Thank you for reaching out to us. Please use the verification code below to complete your inquiry submission:</p>
-                        <div style='background-color: #f1f5f9; padding: 15px; font-size: 32px; font-weight: bold; letter-spacing: 5px; color: #1e293b; margin: 20px 0; border-radius: 10px;'>
-                            {otp}
-                        </div>
-                        <p style='color: #64748b; font-size: 12px;'>This code will expire shortly. If you did not request this, please ignore this email.</p>
-                        <hr style='border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;' />
-                        <p>Best Regards,<br/><strong>PolyTrack ERP System</strong></p>
-                    </div>
-                </body>
-                </html>";
+            var template = await _context.EmailTemplates.FirstOrDefaultAsync(t => t.Name == "OTP_Verification");
+            var subject = template?.Subject.Replace("{{OTP}}", otp) ?? $"Verification Code: {otp}";
+            var body = template?.Body
+                .Replace("{{OTP}}", otp)
+                .Replace("{{CustomerName}}", inquiry.CustomerName) 
+                ?? $"Your OTP is {otp}";
 
             await _emailService.SendEmailAsync(inquiry.ContactEmail, subject, body);
         }
@@ -99,6 +88,12 @@ public class SalesInquiryController : ControllerBase
             return BadRequest("Invalid inquiry or already verified.");
         }
 
+        // Check if OTP is older than 10 minutes
+        if (DateTime.Now > inquiry.UpdatedAt.AddMinutes(10))
+        {
+            return BadRequest("OTP Expired. Please submit a new inquiry.");
+        }
+
         if (inquiry.Remarks == request.Otp)
         {
             // OTP Matches! 
@@ -107,6 +102,31 @@ public class SalesInquiryController : ControllerBase
             inquiry.UpdatedAt = DateTime.Now;
 
             await _context.SaveChangesAsync();
+
+            // Create a notification for the system
+            var notification = new Notification
+            {
+                Message = $"New Sales Inquiry verified from {inquiry.CustomerName}",
+                Type = "Inquiry",
+                RelatedId = inquiry.Id.ToString(),
+                CreatedAt = DateTime.Now
+            };
+            _context.Notifications.Add(notification);
+            await _context.SaveChangesAsync();
+
+            // Send Confirmation Email using template
+            if (!string.IsNullOrEmpty(inquiry.ContactEmail))
+            {
+                var template = await _context.EmailTemplates.FirstOrDefaultAsync(t => t.Name == "Inquiry_Confirmed");
+                var subject = template?.Subject.Replace("{{InquiryId}}", inquiry.Id.ToString()) ?? "Inquiry Verified";
+                var body = template?.Body
+                    .Replace("{{InquiryId}}", inquiry.Id.ToString())
+                    .Replace("{{CustomerName}}", inquiry.CustomerName)
+                    ?? "Your inquiry has been verified.";
+
+                await _emailService.SendEmailAsync(inquiry.ContactEmail, subject, body);
+            }
+
             return Ok(new { message = "Inquiry verified successfully!" });
         }
 

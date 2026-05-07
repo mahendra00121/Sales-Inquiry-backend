@@ -23,4 +23,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Dispatch> DispatchRecords { get; set; }
     public DbSet<WasteRecord> WasteRecords { get; set; }
     public DbSet<MasterData> MasterData { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
+    public DbSet<SystemSetting> SystemSettings { get; set; }
+    public DbSet<RolePermission> RolePermissions { get; set; }
+    public DbSet<EmailTemplate> EmailTemplates { get; set; }
 }

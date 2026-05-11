@@ -31,6 +31,16 @@ public class WasteRecordController : ControllerBase
     public async Task<ActionResult<WasteRecord>> CreateLog(WasteRecord log)
     {
         _context.WasteRecords.Add(log);
+        
+        // Add System Notification
+        _context.Notifications.Add(new Notification
+        {
+            Message = $"New Waste Log: {log.Weight}kg of {log.Material} ({log.WasteType}) recorded.",
+            Type = "System",
+            CreatedAt = DateTime.Now,
+            IsRead = false
+        });
+
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(GetLogs), new { id = log.Id }, log);
     }
@@ -42,6 +52,16 @@ public class WasteRecordController : ControllerBase
         if (record == null) return NotFound();
 
         record.ActionTaken = status;
+
+        // Add System Notification
+        _context.Notifications.Add(new Notification
+        {
+            Message = $"Waste Action: Scrap ID #{id} has been {status}.",
+            Type = "System",
+            CreatedAt = DateTime.Now,
+            IsRead = false
+        });
+
         await _context.SaveChangesAsync();
         return NoContent();
     }

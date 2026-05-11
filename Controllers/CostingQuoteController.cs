@@ -45,6 +45,14 @@ public class CostingQuoteController : ControllerBase
         }
 
         await _context.SaveChangesAsync();
+
+        _context.Notifications.Add(new Notification {
+            Message = $"New Quote generated for Inquiry #{quote.InquiryId}: Rs. {quote.FinalPriceWithTax}",
+            Type = "System",
+            CreatedAt = DateTime.Now
+        });
+        await _context.SaveChangesAsync();
+
         return CreatedAtAction(nameof(GetQuote), new { id = quote.Id }, quote);
     }
 

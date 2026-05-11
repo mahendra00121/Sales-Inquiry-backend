@@ -59,7 +59,19 @@ public class SalesInquiryController : ControllerBase
         inquiry.Remarks = otp; 
 
         _context.SalesInquiries.Add(inquiry);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(); // COMMIT FIRST to get the Id
+        
+        // Log Initial Creation
+        _context.InquiryLogs.Add(new InquiryLog
+        {
+            InquiryId = inquiry.Id, // Now Id is valid!
+            Action = "Created",
+            ModifiedBy = User.Identity?.Name ?? "System",
+            Timestamp = DateTime.Now,
+            Details = "Inquiry created (OTP Pending)"
+        });
+
+        await _context.SaveChangesAsync(); // Commit the log
 
         // Step 3: Send OTP Email
         if (!string.IsNullOrEmpty(inquiry.ContactEmail))
@@ -112,6 +124,17 @@ public class SalesInquiryController : ControllerBase
                 CreatedAt = DateTime.Now
             };
             _context.Notifications.Add(notification);
+
+            // Log Verification
+            _context.InquiryLogs.Add(new InquiryLog
+            {
+                InquiryId = inquiry.Id,
+                Action = "Verified",
+                ModifiedBy = "System",
+                Timestamp = DateTime.Now,
+                Details = "Inquiry verified via OTP"
+            });
+
             await _context.SaveChangesAsync();
 
             // Send Confirmation Email using template
@@ -149,10 +172,26 @@ public class SalesInquiryController : ControllerBase
         }
 
         inquiry.UpdatedAt = DateTime.Now;
+
+        // Ensure we are not tracking another instance of the same ID
+        var existingInquiry = await _context.SalesInquiries.FindAsync(id);
+        if (existingInquiry == null) return NotFound();
+        _context.Entry(existingInquiry).State = EntityState.Detached;
+
         _context.Entry(inquiry).State = EntityState.Modified;
 
         try
         {
+            // Log Update
+            _context.InquiryLogs.Add(new InquiryLog
+            {
+                InquiryId = id,
+                Action = "Updated",
+                ModifiedBy = User.Identity?.Name ?? "Admin",
+                Timestamp = DateTime.Now,
+                Details = $"Inquiry updated. Status: {inquiry.Status}"
+            });
+
             await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
@@ -189,5 +228,15 @@ public class SalesInquiryController : ControllerBase
     private bool InquiryExists(int id)
     {
         return _context.SalesInquiries.Any(e => e.Id == id);
+    }
+
+    // GET: api/SalesInquiry/5/logs
+    [HttpGet("{id}/logs")]
+    public async Task<ActionResult<IEnumerable<InquiryLog>>> GetInquiryLogs(int id)
+    {
+        return await _context.InquiryLogs
+            .Where(l => l.InquiryId == id)
+            .OrderByDescending(l => l.Timestamp)
+            .ToListAsync();
     }
 }

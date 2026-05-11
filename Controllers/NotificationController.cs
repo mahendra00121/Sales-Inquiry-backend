@@ -20,6 +20,7 @@ public class NotificationController : ControllerBase
     public async Task<ActionResult<IEnumerable<Notification>>> GetNotifications()
     {
         return await _context.Notifications
+            .Where(n => !n.IsRead) // Only show unread notifications
             .OrderByDescending(n => n.CreatedAt)
             .Take(20)
             .ToListAsync();
@@ -32,10 +33,21 @@ public class NotificationController : ControllerBase
     }
 
     [HttpPost("mark-as-read")]
-    public async Task<IActionResult> MarkAsRead()
+    public async Task<IActionResult> MarkAllAsRead()
     {
         var unread = await _context.Notifications.Where(n => !n.IsRead).ToListAsync();
         foreach (var n in unread) n.IsRead = true;
+        await _context.SaveChangesAsync();
+        return Ok();
+    }
+    
+    [HttpPost("mark-as-read/{id}")]
+    public async Task<IActionResult> MarkAsRead(int id)
+    {
+        var notification = await _context.Notifications.FindAsync(id);
+        if (notification == null) return NotFound();
+        
+        notification.IsRead = true;
         await _context.SaveChangesAsync();
         return Ok();
     }

@@ -41,6 +41,16 @@ public class RolePermissionController : ControllerBase
         }
 
         await _context.SaveChangesAsync();
+
+        // Add a notification for the system change
+        _context.Notifications.Add(new Notification
+        {
+            Message = "System role permissions have been updated.",
+            Type = "System",
+            CreatedAt = DateTime.Now
+        });
+        await _context.SaveChangesAsync();
+
         return Ok();
     }
 

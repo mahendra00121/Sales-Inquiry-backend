@@ -27,4 +27,5 @@ public class ApplicationDbContext : DbContext
     public DbSet<SystemSetting> SystemSettings { get; set; }
     public DbSet<RolePermission> RolePermissions { get; set; }
     public DbSet<EmailTemplate> EmailTemplates { get; set; }
+    public DbSet<InquiryLog> InquiryLogs { get; set; }
 }

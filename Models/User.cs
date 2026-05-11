@@ -16,7 +16,15 @@ public class User
 
     public string? FullName { get; set; }
     
+    public string? Email { get; set; }
+    
     public string? Role { get; set; }
+
+    public string? ResetOtp { get; set; }
+
+    public DateTime? ResetOtpExpiry { get; set; }
     
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public DateTime? LastActiveAt { get; set; }
 }

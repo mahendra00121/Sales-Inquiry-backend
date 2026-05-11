@@ -46,6 +46,14 @@ public class DispatchController : ControllerBase
         }
 
         await _context.SaveChangesAsync();
+
+        _context.Notifications.Add(new Notification {
+            Message = $"Shipment Dispatched via {dispatch.CarrierName} (ID: {dispatch.TrackingId})",
+            Type = "System",
+            CreatedAt = DateTime.Now
+        });
+        await _context.SaveChangesAsync();
+
         return CreatedAtAction(nameof(GetDispatch), new { id = dispatch.Id }, dispatch);
     }
 

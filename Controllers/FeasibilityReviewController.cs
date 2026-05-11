@@ -45,6 +45,14 @@ public class FeasibilityReviewController : ControllerBase
         }
 
         await _context.SaveChangesAsync();
+
+        _context.Notifications.Add(new Notification {
+            Message = $"Feasibility {(review.IsFeasible ? "Approved" : "Rejected")} for Inquiry #{review.InquiryId}",
+            Type = "System",
+            CreatedAt = DateTime.Now
+        });
+        await _context.SaveChangesAsync();
+
         return CreatedAtAction(nameof(GetReview), new { id = review.Id }, review);
     }
 

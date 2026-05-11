@@ -39,6 +39,15 @@ public class SalesOrderController : ControllerBase
         
         _context.SalesOrders.Add(order);
 
+        // Add System Notification
+        _context.Notifications.Add(new Notification
+        {
+            Message = $"New Order Confirmed: {order.OrderNumber} for Inquiry #{order.InquiryId}.",
+            Type = "System",
+            CreatedAt = DateTime.Now,
+            IsRead = false
+        });
+
         var inquiry = await _context.SalesInquiries.FindAsync(order.InquiryId);
         if (inquiry != null)
         {
